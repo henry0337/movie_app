@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    kotlin("plugin.serialization") version "1.9.24"
 }
 
 android {
@@ -60,6 +61,9 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.chip.navigation.bar)
     implementation(libs.blurview)
+
+    // Kotlin Serialization library
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
 

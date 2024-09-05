@@ -1,10 +1,10 @@
 package com.henry.movieapp.data.models
 
-class SliderItem(
-    val image: String,
-    val name: String,
-    val genre: String,
-    val age: String,
-    val year: String,
-    val time: String
-)
+class SliderItem {
+    var image: String = ""
+    var name: String = ""
+    var genre: String = ""
+    var age: String = ""
+    var year: String = ""
+    var time: String = ""
+}

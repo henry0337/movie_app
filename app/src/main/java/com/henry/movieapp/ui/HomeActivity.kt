@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -18,7 +19,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.henry.movieapp.R
+import com.henry.movieapp.data.adapters.FilmAdapter
 import com.henry.movieapp.data.adapters.SliderAdapter
+import com.henry.movieapp.data.models.Film
 import com.henry.movieapp.data.models.SliderItem
 import com.henry.movieapp.databinding.ActivityHomeBinding
 import com.henry.movieapp.utils.FIREBASE_URL
@@ -50,6 +53,7 @@ class HomeActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance(FIREBASE_URL)
 
         initBanners()
+        initTopMovies()
     }
 
     override fun onPause() {
@@ -82,10 +86,9 @@ class HomeActivity : AppCompatActivity() {
                 Log.e("FirebaseError", error.details)
             }
         })
-
     }
 
-    fun getBanners(items: MutableList<SliderItem>) {
+    private fun getBanners(items: MutableList<SliderItem>) {
         val transformer = CompositePageTransformer()
         transformer.addTransformer(MarginPageTransformer(40))
         transformer.addTransformer { page, position ->
@@ -104,6 +107,37 @@ class HomeActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 handle.removeCallbacks(runnable)
+            }
+        })
+    }
+
+    private fun initTopMovies() {
+        val ref = database.getReference("Items")
+        val items = mutableListOf<Film>()
+
+        binding.progressBar2.visibility = View.VISIBLE
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (ds in snapshot.children) {
+                        items.add(ds.getValue(Film::class.java)!!)
+                    }
+
+                    if (items.isNotEmpty()) {
+                        binding.recyclerViewTop.layoutManager = LinearLayoutManager(
+                            this@HomeActivity,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+                        binding.recyclerViewTop.adapter = FilmAdapter(items)
+                    }
+
+                    binding.progressBar2.visibility = View.GONE
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseError", error.details)
             }
         })
     }
