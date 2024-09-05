@@ -8,44 +8,6 @@
     android:background="@color/main"
     tools:context=".ui.IntroActivity">
 
-    <!--    <ScrollView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent">-->
-
-    <!--        <LinearLayout-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:orientation="vertical">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/textView"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_marginTop="48dp"-->
-    <!--                android:text="Movie Center"-->
-    <!--                android:textAlignment="center"-->
-    <!--                android:textColor="@color/white"-->
-    <!--                android:textSize="40sp"-->
-    <!--                android:textStyle="bold|italic" />-->
-
-    <!--            <ImageView-->
-    <!--                android:id="@+id/imageView"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                app:srcCompat="@drawable/intro_logo" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/textView2"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:textSize="20sp"-->
-    <!--                android:layout_margin="32dp"-->
-    <!--                android:text="Hundreds of premium TV shows and movies are waiting for you right on your device."-->
-    <!--                android:textAlignment="center"-->
-    <!--                android:textColor="@color/white" />-->
-    <!--        </LinearLayout>-->
-    <!--    </ScrollView>-->
-
     <LinearLayout
         android:id="@+id/intro_title"
         android:layout_width="match_parent"
