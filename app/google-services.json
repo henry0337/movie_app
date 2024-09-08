@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "805400825666",
+    "firebase_url": "https://movieapp-7481e-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "movieapp-7481e",
     "storage_bucket": "movieapp-7481e.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.henry.movieapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "805400825666-kceokfpae6dkeunf13gutmjhnqbjpc55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDIXLe9fdqQC-vvuaz3t5H5QMyNnMVGg3g"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805400825666-kceokfpae6dkeunf13gutmjhnqbjpc55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -1,11 +1,17 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
-    kotlin("plugin.serialization") version "1.9.24"
 }
 
 android {
+    val propsFile = rootProject.file("private.properties")
+    val props = Properties()
+    props.load(FileInputStream(propsFile))
+
     namespace = "com.henry.movieapp"
     compileSdk = 34
 
@@ -20,6 +26,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "FIREBASE_URL", props.getProperty("FIREBASE_URL"))
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -30,6 +40,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 
@@ -51,19 +62,29 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    // GPS library
+    implementation(libs.play.services.auth)
+
+    // Credential Manager libraries
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+
     // Firebase libraries
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.auth)
 
-    // 3rd party UI libraries
+    // Koin DI libraries
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+
+    // 3rd UI libraries
     implementation(libs.glide)
     implementation(libs.chip.navigation.bar)
     implementation(libs.blurview)
-
-    // Kotlin Serialization library
-    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
 
