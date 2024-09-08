@@ -1,6 +1,7 @@
 package com.henry.movieapp.data.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.henry.movieapp.R
 import com.henry.movieapp.data.models.Film
+import com.henry.movieapp.ui.DetailActivity
 
 class FilmAdapter(
     private var items: MutableList<Film>
@@ -30,14 +32,14 @@ class FilmAdapter(
         var option = RequestOptions()
         option = option.transform(CenterCrop(), RoundedCorners(30))
 
-        Glide.with(context)
-            .load(items[position].Poster)
-            .apply(option)
-            .into(holder.pic)
+        Glide.with(context).load(items[position].Poster).apply(option).into(holder.pic)
 
         holder.titleTxt.text = items[position].Title
         holder.itemView.setOnClickListener {
-            // TODO: Event will be added soon.
+            val intent = Intent(context, DetailActivity::class.java).apply {
+                putExtra("filmList", items[position])
+            }
+            context.startActivity(intent)
         }
     }
 

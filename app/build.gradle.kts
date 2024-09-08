@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -27,7 +28,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "FIREBASE_URL", props.getProperty("FIREBASE_URL"))
+            buildConfigField("String", "FIREBASE_URL", "\"" + props.getProperty("FIREBASE_URL") + "\"")
         }
 
         release {
