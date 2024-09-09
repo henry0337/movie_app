@@ -1,4 +1,3 @@
-import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -28,7 +27,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "FIREBASE_URL", props.getProperty("FIREBASE_URL"))
+            // For Windows 11 users, use this line instead of the one below
+//            buildConfigField("String", "FIREBASE_URL", props.getProperty("FIREBASE_URL"))
+            // For Windows 10 users, this one should be better (I don't test this in any other platforms)
+            buildConfigField("String", "FIREBASE_URL", "\"${props.getProperty("FIREBASE_URL")}\"")
         }
 
         release {
