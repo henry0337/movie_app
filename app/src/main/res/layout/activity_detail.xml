@@ -57,7 +57,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="32dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -119,6 +122,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="2024 - 2h 2m"
+                            android:textColor="@color/white"
                             tools:ignore="NestedWeights" />
 
                         <TextView
@@ -134,6 +138,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginTop="8dp"
                         android:text="Summary"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
@@ -143,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Summary"
+                        android:text="test"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
 
@@ -159,8 +164,8 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/castView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp" />

@@ -1,7 +1,6 @@
 package com.henry.movieapp.ui
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -24,15 +23,18 @@ import com.henry.movieapp.data.models.Film
 import com.henry.movieapp.data.models.SliderItem
 import com.henry.movieapp.databinding.ActivityHomeBinding
 import com.henry.movieapp.utils.FIREBASE_URL
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var database: FirebaseDatabase
-    private val handler = Handler()
-    private val runnable = Runnable {
-        binding.viewPager2.currentItem += 1
-    }
+    private var viewPagerJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,12 +56,12 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        handler.removeCallbacks(runnable)
+        viewPagerJob?.cancel()
     }
 
     override fun onResume() {
         super.onResume()
-        handler.postDelayed(runnable, 2000)
+        viewPagerJob = startAutoSlide()
     }
 
     private fun initBanners() {
@@ -164,8 +166,17 @@ class HomeActivity : AppCompatActivity() {
         binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                handler.removeCallbacks(runnable)
+                viewPagerJob?.cancel()
+                viewPagerJob = startAutoSlide()
             }
         })
+    }
+
+    private fun startAutoSlide() = CoroutineScope(Dispatchers.Main).launch {
+        while (isActive) {
+            delay(2000) // 2-second delay
+            val nextItem = (binding.viewPager2.currentItem + 1) % binding.viewPager2.adapter!!.itemCount
+            binding.viewPager2.currentItem = nextItem
+        }
     }
 }

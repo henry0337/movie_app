@@ -9,9 +9,9 @@ plugins {
 }
 
 android {
-    val propsFile = rootProject.file("private.properties")
-    val props = Properties()
-    props.load(FileInputStream(propsFile))
+    val props = Properties().apply {
+        file("../private.properties").inputStream().use { load(it) }
+    }
 
     namespace = "com.henry.movieapp"
     compileSdk = 34
@@ -28,7 +28,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "FIREBASE_URL", "\"" + props.getProperty("FIREBASE_URL") + "\"")
+            buildConfigField("String", "FIREBASE_URL", props.getProperty("FIREBASE_URL"))
         }
 
         release {
@@ -62,6 +62,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    implementation(libs.kotlinx.coroutines.android)
 
     // GPS library
     implementation(libs.play.services.auth)

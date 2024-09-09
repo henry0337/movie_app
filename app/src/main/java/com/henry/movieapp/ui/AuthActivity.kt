@@ -24,6 +24,7 @@ import com.henry.movieapp.R
 import com.henry.movieapp.data.models.User
 import com.henry.movieapp.databinding.ActivityAuthBinding
 
+@Suppress("DEPRECATION")
 class AuthActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAuthBinding
     private lateinit var oneTapClient: SignInClient
@@ -52,14 +53,6 @@ class AuthActivity : AppCompatActivity() {
 
         binding.ggBtn.setOnClickListener {
             onLogin()
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            navigateToHome(currentUser.displayName, currentUser.email, currentUser.photoUrl.toString())
         }
     }
 
