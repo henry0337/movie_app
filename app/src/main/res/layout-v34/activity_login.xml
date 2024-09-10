@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main"
-    tools:context=".ui.AuthActivity">
+    tools:context=".ui.LoginActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -40,6 +40,7 @@
                 android:ems="10"
                 android:hint="Your username"
                 android:inputType="text"
+                android:isCredential="true"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textAlignment="textStart"
@@ -58,6 +59,7 @@
                 android:ems="10"
                 android:hint="Your password"
                 android:inputType="textPassword|textVisiblePassword"
+                android:isCredential="true"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textAlignment="textStart"

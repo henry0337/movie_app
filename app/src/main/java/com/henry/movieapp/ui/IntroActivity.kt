@@ -30,7 +30,7 @@ class IntroActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         binding.introButton.setOnClickListener {
-            startActivity(Intent(this, AuthActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 
@@ -38,17 +38,8 @@ class IntroActivity : AppCompatActivity() {
         super.onStart()
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            navigateToHome(currentUser.displayName, currentUser.email, currentUser.photoUrl.toString())
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
-    }
-
-    private fun navigateToHome(name: String?, email: String?, photoUrl: String?) {
-        val intent = Intent(this, HomeActivity::class.java).apply {
-            putExtra("displayName", name)
-            putExtra("email", email)
-            putExtra("photoUrl", photoUrl)
-        }
-        startActivity(intent)
-        finish()
     }
 }

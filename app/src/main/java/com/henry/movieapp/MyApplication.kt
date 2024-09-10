@@ -1,6 +1,7 @@
-package com.henry.movieapp.ui
+package com.henry.movieapp
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
@@ -9,10 +10,25 @@ import android.view.WindowManager
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.henry.movieapp.utils.checkInternetStatus
 
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        if (!checkInternetStatus(this)) {
+            val builder = AlertDialog.Builder(this);
+
+            builder
+                .setTitle("Your device has no internet connection")
+                .setMessage("Maybe you have turned off your Wifi or mobile cellular, or you connected to Wifi or mobile cellular but has no internet.\n You should double check this to ensure your experience in the app is not interrupted.")
+                .setCancelable(true)
+                .setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss()
+                }
+
+            builder.show()
+        }
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
