@@ -28,10 +28,10 @@ android {
     buildTypes {
         debug {
             // For Windows 11 users, use this line instead of the one below
-            buildConfigField("String", "FIREBASE_URL", props.getProperty("FIREBASE_URL"))
+            // buildConfigField("String", "FIREBASE_URL", props.getProperty("FIREBASE_URL"))
 
             // For Windows 10 users, this one should be better (I don't test this in any other platforms than Windows)
-            // buildConfigField("String", "FIREBASE_URL", "\"${props.getProperty("FIREBASE_URL")}\"")
+            buildConfigField("String", "FIREBASE_URL", "\"${props.getProperty("FIREBASE_URL")}\"")
         }
 
         release {
