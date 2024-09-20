@@ -27,7 +27,7 @@ class IntroActivity : AppCompatActivity() {
             insets
         }
 
-        auth = Firebase.auth
+
 
         binding.introButton.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
@@ -36,9 +36,17 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        auth = Firebase.auth
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            startActivity(Intent(this, HomeActivity::class.java))
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                putExtra("email", currentUser.email)
+                putExtra("displayName", currentUser.displayName)
+                putExtra("avatar", currentUser.photoUrl.toString())
+            }
+
+            startActivity(intent)
             finish()
         }
     }

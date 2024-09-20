@@ -17,21 +17,18 @@ android {
 
     defaultConfig {
         applicationId = "com.henry.movieapp"
-        minSdk = 29
+        minSdk = 28
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            // For Windows 11 users, use this line instead of the one below
-            // buildConfigField("String", "FIREBASE_URL", props.getProperty("FIREBASE_URL"))
-
-            // For Windows 10 users, this one should be better (I don't test this in any other platforms than Windows)
-            buildConfigField("String", "FIREBASE_URL", "\"${props.getProperty("FIREBASE_URL")}\"")
+             buildConfigField("String", "FIREBASE_URL", "\"${props.getProperty("FIREBASE_URL")}\"")
         }
 
         release {
@@ -71,12 +68,6 @@ dependencies {
 
     // GPS library
     implementation(libs.play.services.auth)
-    implementation(libs.play.services.auth.api.phone)
-
-    // Credential Manager libraries
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.credentials.play.services.auth)
-    implementation(libs.googleid)
 
     // Firebase libraries
     implementation(platform(libs.firebase.bom))
@@ -85,17 +76,13 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.firebase.auth)
 
-    // Koin DI libraries
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.core)
-
     // 3rd UI libraries
     implementation(libs.glide)
     implementation(libs.chip.navigation.bar)
     implementation(libs.blurview)
 
+    // Test libraries
     testImplementation(libs.junit)
-
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

@@ -1,17 +1,32 @@
 package com.henry.movieapp.ui
 
+import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.contains
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -22,7 +37,9 @@ import com.henry.movieapp.data.adapters.SliderAdapter
 import com.henry.movieapp.data.models.Film
 import com.henry.movieapp.data.models.SliderItem
 import com.henry.movieapp.databinding.ActivityHomeBinding
+import com.henry.movieapp.databinding.ActivityLoginBinding
 import com.henry.movieapp.utils.FIREBASE_URL
+import com.henry.movieapp.utils.displayToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,11 +64,30 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
+        // Khi và chỉ khi khu vực quản lý cơ sở dữ liệu trong Firebase console là "United States" thì dùng:
+        // database = FirebaseDatabase.getInstance()
+
         database = FirebaseDatabase.getInstance(FIREBASE_URL)
 
         initBanners()
         initTopMovies()
         initUpcomingMovies()
+        configureUserInformation()
+        configureNavigationBar()
+
+        binding.simpleProfile.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java).apply {
+                putExtra("email", Firebase.auth.currentUser!!.email)
+                putExtra("displayName", Firebase.auth.currentUser!!.displayName)
+                putExtra("avatar", Firebase.auth.currentUser!!.photoUrl.toString())
+            }
+            startActivity(intent)
+        }
+
+        binding.logoutBtn.setOnClickListener {
+            binding.homeLayout2.visibility = View.VISIBLE
+            logout()
+        }
     }
 
     override fun onPause() {
@@ -61,7 +97,9 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
         viewPagerJob = startAutoSlide()
+        binding.navBar.setItemSelected(R.id.explorer)
     }
 
     private fun initBanners() {
@@ -73,7 +111,9 @@ class HomeActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     for (ds in snapshot.children) {
-                        items.add(ds.getValue(SliderItem::class.java)!!)
+                        ds.getValue(SliderItem::class.java)?.let {
+                            items.add(it)
+                        }
                     }
                     getBanners(items)
                     binding.progressBar1.visibility = View.GONE
@@ -95,7 +135,9 @@ class HomeActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     for (ds in snapshot.children) {
-                        items.add(ds.getValue(Film::class.java)!!)
+                        ds.getValue(Film::class.java)?.let {
+                            items.add(it)
+                        }
                     }
 
                     if (items.isNotEmpty()) {
@@ -126,7 +168,9 @@ class HomeActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     for (ds in snapshot.children) {
-                        items.add(ds.getValue(Film::class.java)!!)
+                        ds.getValue(Film::class.java)?.let { 
+                            items.add(it)
+                        }
                     }
 
                     if (items.isNotEmpty()) {
@@ -174,9 +218,55 @@ class HomeActivity : AppCompatActivity() {
 
     private fun startAutoSlide() = CoroutineScope(Dispatchers.Main).launch {
         while (isActive) {
-            delay(2000) // 2-second delay
-            val nextItem = (binding.viewPager2.currentItem + 1) % binding.viewPager2.adapter!!.itemCount
+            delay(3000)
+            val nextItem =
+                (binding.viewPager2.currentItem + 1) % binding.viewPager2.adapter!!.itemCount
             binding.viewPager2.currentItem = nextItem
         }
+    }
+
+    private fun configureUserInformation() {
+        var option = RequestOptions()
+        val email = intent.getStringExtra("email")
+        val displayName = intent.getStringExtra("displayName")
+        val avatar = intent.getStringExtra("avatar")
+
+        option = option.transform(CenterCrop(), RoundedCorners(50))
+
+        binding.emailTxt.text = email
+        binding.displayNameTxt.text = displayName
+        avatar?.let {
+            Glide.with(this)
+                .load(it)
+                .override(100, 100)
+                .apply(option)
+                .into(binding.avatarImg)
+        }
+    }
+
+    private fun configureNavigationBar() {
+        val navBar = binding.navBar
+
+        navBar.post {
+            val id = navBar.getChildAt(0).id
+            navBar.setItemSelected(id)
+        }
+
+        navBar.setOnItemSelectedListener { id ->
+            when (id) {
+                R.id.setting -> {
+                    navBar.setItemSelected(id)
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                }
+            }
+        }
+    }
+
+    private fun logout() {
+        Firebase.auth.signOut()
+        displayToast(this, "Logout successfully!\nReturning back to login page...", Toast.LENGTH_SHORT)
+        binding.homeLayout2.visibility = View.GONE
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

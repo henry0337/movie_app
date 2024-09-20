@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.henry.movieapp.utils.checkInternetStatus
 
+
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()

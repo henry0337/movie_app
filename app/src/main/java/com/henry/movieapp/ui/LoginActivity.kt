@@ -2,10 +2,15 @@ package com.henry.movieapp.ui
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -19,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -26,8 +32,13 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.henry.movieapp.R
+import com.henry.movieapp.databinding.ActivityHomeBinding
 import com.henry.movieapp.databinding.ActivityLoginBinding
 import com.henry.movieapp.utils.checkInternetStatus
+import com.henry.movieapp.utils.displayToast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity() {
@@ -47,19 +58,20 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        // Đoạn mã này không thể kiểm tra được ở trên máy ảo, bạn nên thử ở máy thật khi đến màn hình chứa đoạn mã này
-        if (!checkInternetStatus(this)) {
-            val builder = AlertDialog.Builder(this);
+        CoroutineScope(Dispatchers.IO).launch {
+            if (!checkInternetStatus(this@LoginActivity)) {
+                val builder = AlertDialog.Builder(this@LoginActivity)
 
-            builder
-                .setTitle("Your device has no internet connection")
-                .setMessage("Maybe you have turned off your Wifi or mobile cellular, or you connected to Wifi or mobile cellular but has no internet.\n You should double check this to ensure your experience in the app is not interrupted.")
-                .setCancelable(true)
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
+                builder
+                    .setTitle("Your device has no internet connection")
+                    .setMessage("Maybe you have turned off your Wifi or mobile cellular, or you connected to Wifi or mobile cellular but has no internet.\n\nYou should double check this for your better experience.")
+                    .setPositiveButton("OK") { dialog, _ ->
+                        dialog.dismiss()
+                    }
 
-            builder.show()
+
+                builder.show()
+            }
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -82,38 +94,72 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.apply {
+            emailEdt.setOnFocusChangeListener { view, hasFocused ->
+                emailEdt.hint = if (hasFocused) "" else "Your email"
+                if (!hasFocused) hideKeyboard(view)
+            }
+
+            passwordEdt.setOnFocusChangeListener { view, hasFocused ->
+                passwordEdt.hint = if (hasFocused) "" else "Your password"
+                if (!hasFocused) hideKeyboard(view)
+            }
+
+            if (signUpPage.isClickable) {
+                signUpPage.setOnClickListener {
+                    startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+                }
+            }
+
+            if (forgotPasswordTxt.isClickable) {
+                forgotPasswordTxt.setOnClickListener {
+                    // TODO: Thử làm gì đó với nút bấm này
+                }
+            }
+
             loginBtn.setOnClickListener {
-                val email = emailEdt?.text.toString()
+                val email = emailEdt.text.toString()
                 val password = passwordEdt.text.toString()
 
-                handlePasswordBasedAccountLogin(email, password, this)
+                binding.authLoading.visibility = View.VISIBLE
+                handlePasswordBasedAccountLoggingIn(email, password, this)
             }
 
             ggBtn.setOnClickListener {
-                handleGoogleAccountLogin()
+                binding.authLoading.visibility = View.VISIBLE
+                handleGoogleAccountLoggingIn()
             }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+    // Hàm xử lý sự kiện khi người dùng chạm vào màn hình
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action == MotionEvent.ACTION_DOWN) {
+            val view = currentFocus
+            if (view is EditText) {
+                val outRect = Rect()
+                view.getGlobalVisibleRect(outRect)
+                // Nếu như khu vực mà người dùng click không nằm trong EditText...
+                if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                    // thì loại bỏ trạng thái focus
+                    view.clearFocus()
+                    // và ẩn bàn phím của thiết bị nếu đang hiện
+                    hideKeyboard(view)
+                }
+            }
         }
+
+        return super.dispatchTouchEvent(ev)
     }
 
-    private fun handlePasswordBasedAccountLogin(
+    private fun handlePasswordBasedAccountLoggingIn(
         email: String = "",
         password: String = "",
         binding: ActivityLoginBinding
     ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
+                binding.authLoading.visibility = View.GONE
                 if (task.isSuccessful) {
-                    binding.authLoading?.visibility = View.GONE
                     val user = auth.currentUser
 
                     val intent = Intent(this, HomeActivity::class.java).apply {
@@ -127,38 +173,22 @@ class LoginActivity : AppCompatActivity() {
                 } else {
                     when (task.exception) {
                         is FirebaseAuthInvalidCredentialsException -> {
-                            binding.authLoading?.visibility = View.GONE
-                            Toast.makeText(
-                                this,
-                                "Your email or password is incorrect.\nYou can double check your typo then try again.",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            displayToast(this, "Your email or password is incorrect.\nYou should double-check your typo and try again.", Toast.LENGTH_LONG)
                         }
 
                         is FirebaseAuthInvalidUserException -> {
-                            binding.authLoading?.visibility = View.GONE
-                            Toast.makeText(
-                                this,
-                                "Your account is not exist.\nMaybe your account had been disabled \nor deleted by the adminístrator of this app or someone else?",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            displayToast(this, "Your account does not exist.\nMaybe your account had been disabled \nor deleted by the adminístrator of this app or someone else?", Toast.LENGTH_LONG)
                         }
 
                         else -> {
-                            binding.authLoading?.visibility = View.GONE
-                            Toast.makeText(
-                                this,
-                                "We don't know what happened, please try again later.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            displayToast(this, "We don't know what happened, please try again later.", Toast.LENGTH_SHORT)
                         }
                     }
                 }
             }
-
     }
 
-    private fun handleGoogleAccountLogin() {
+    private fun handleGoogleAccountLoggingIn() {
         val signInIntent = googleSignInClient.signInIntent
         googleSignInLauncher.launch(signInIntent)
     }
@@ -181,6 +211,7 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
+
                     val intent = Intent(this, HomeActivity::class.java).apply {
                         putExtra("email", user?.email)
                         putExtra("displayName", user?.displayName)
@@ -188,10 +219,17 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     startActivity(intent)
+                    displayToast(this, "Welcome back, ${user?.displayName}!", Toast.LENGTH_LONG)
+                    binding.authLoading.visibility = View.GONE
                     finish()
                 } else {
                     Log.e("FirebaseAuthError", "Firebase authentication failed: ${task.exception?.message}")
                 }
             }
+    }
+
+    private fun hideKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

@@ -43,7 +43,7 @@
             <eightbitlab.com.blurview.BlurView
                 android:id="@+id/blurView"
                 android:layout_width="0dp"
-                android:layout_height="600dp"
+                android:layout_height="550dp"
                 android:layout_margin="24dp"
                 android:background="@drawable/blur_bg"
                 app:blurOverlayColor="#90000000"
@@ -75,7 +75,8 @@
                             android:text="title"
                             android:textColor="@color/white"
                             android:textSize="30sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="NestedWeights" />
 
                         <ImageView
                             android:id="@+id/imageView6"

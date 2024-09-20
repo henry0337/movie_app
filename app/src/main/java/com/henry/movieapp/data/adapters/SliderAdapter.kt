@@ -2,6 +2,7 @@ package com.henry.movieapp.data.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.henry.movieapp.R
 import com.henry.movieapp.data.models.SliderItem
+import com.henry.movieapp.ui.DetailActivity
 
 class SliderAdapter(
     private val items: MutableList<SliderItem>,
