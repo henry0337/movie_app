@@ -3,7 +3,6 @@ package com.henry.movieapp.ui
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -50,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
         var option = RequestOptions()
         val decorView = window.decorView
         val windowBackground = decorView.background
-        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
+        val rootView: ViewGroup = decorView.findViewById(android.R.id.content)
         val item: Film? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("filmList", Film::class.java)
         } else {
@@ -72,16 +71,11 @@ class DetailActivity : AppCompatActivity() {
             movieSummary.text = item.Description
 
             watchBtn.setOnClickListener {
-
                 // Lấy ra id từ video Youtube
                 val id = item.Trailer.replace("https://www.youtube.com/watch?v=", "")
                 // "vnd.youtube:{id}" là URI schema dùng để mở video trên ứng dụng Youtube ở Android
                 val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
                 val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(item.Trailer))
-
-                appIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                appIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                appIntent.putExtra("force_fullscreen", true)
 
                 try {
                     // Dùng ứng dụng Youtube để mở video nếu được

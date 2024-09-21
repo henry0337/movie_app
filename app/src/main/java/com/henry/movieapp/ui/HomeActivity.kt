@@ -1,20 +1,14 @@
 package com.henry.movieapp.ui
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.contains
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -24,7 +18,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
@@ -37,7 +30,6 @@ import com.henry.movieapp.data.adapters.SliderAdapter
 import com.henry.movieapp.data.models.Film
 import com.henry.movieapp.data.models.SliderItem
 import com.henry.movieapp.databinding.ActivityHomeBinding
-import com.henry.movieapp.databinding.ActivityLoginBinding
 import com.henry.movieapp.utils.FIREBASE_URL
 import com.henry.movieapp.utils.displayToast
 import kotlinx.coroutines.CoroutineScope

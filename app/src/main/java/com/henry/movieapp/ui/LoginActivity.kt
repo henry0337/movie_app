@@ -24,7 +24,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -32,7 +31,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.henry.movieapp.R
-import com.henry.movieapp.databinding.ActivityHomeBinding
 import com.henry.movieapp.databinding.ActivityLoginBinding
 import com.henry.movieapp.utils.checkInternetStatus
 import com.henry.movieapp.utils.displayToast
