@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/displayNameTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@id/intro_image">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/emailProfileTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
