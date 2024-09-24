@@ -27,9 +27,13 @@
 <h2 id="layout">🎨 Ảnh chụp demo</h2>
 
 <p align="center">
-
-<img src="https://picsum.photos/1080/1920" alt="Random Image" width="400px">
-<img src="https://picsum.photos/1080/1920" alt="Random Image" width="400px">
+UI của ứng dụng sẽ khá vừa mắt với ai đang sử dụng thiết bị như <b>Google Pixel 8 Pro</b> (máy ảo) hoặc <b>Samsung Galaxy A14</b> (máy thật của mình) <br><br> 
+<img src="./screenshots/intro.jpg" alt="Intro Screen" width="400px">
+<img src="./screenshots/login.jpg" alt="Login Screen" width="400px">
+<img src="./screenshots/register.jpg" alt="Register Screen" width="400px">
+<img src="./screenshots/home.jpg" alt="Home Screen" width="400px">
+<img src="./screenshots/detail.jpg" alt="Detail Screen" width="400px">
+<img src="./screenshots/profile.jpg" alt="Profile Screen" width="400px">
 </p>
 
 <h3>Điều kiện tiên quyết</h3>
