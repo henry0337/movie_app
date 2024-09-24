@@ -60,19 +60,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/displayNameTxt"
                     app:layout_constraintTop_toBottomOf="@+id/displayNameTxt" />
-
-                <Button
-                    android:id="@+id/logoutBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Log out"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText

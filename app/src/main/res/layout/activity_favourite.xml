@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main"
-    tools:context=".ui.SettingsActivity">
+    tools:context=".ui.FavouriteActivity">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Setting screen\nYou can create your own custom layout here"
+        android:text="Favourite screen\nYou can create your own custom layout here"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="16sp"

@@ -20,7 +20,7 @@
             android:name=".ui.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.FavouriteActivity"
             android:exported="false" />
         <activity
             android:name=".ui.RegisterActivity"

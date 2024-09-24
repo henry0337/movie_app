@@ -10,8 +10,8 @@
 
     <item
         android:id="@+id/setting"
-        android:icon="@drawable/settings"
-        android:title="Settings"
+        android:icon="@drawable/btn_2"
+        android:title="Favourite"
         app:cnb_backgroundColor="@color/red"
         app:cnb_iconColor="@color/white" />
 </menu>

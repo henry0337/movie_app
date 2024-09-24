@@ -75,11 +75,6 @@ class HomeActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
-
-        binding.logoutBtn.setOnClickListener {
-            binding.homeLayout2.visibility = View.VISIBLE
-            logout()
-        }
     }
 
     override fun onPause() {
@@ -248,7 +243,7 @@ class HomeActivity : AppCompatActivity() {
             when (id) {
                 R.id.setting -> {
                     navBar.setItemSelected(id)
-                    startActivity(Intent(this, SettingsActivity::class.java))
+                    startActivity(Intent(this, FavouriteActivity::class.java))
                 }
             }
         }

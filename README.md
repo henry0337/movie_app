@@ -2,6 +2,7 @@
 
 <p align="center">
 <a href="#tech">Công nghệ</a> |
+<a href="#layout">Ảnh chụp demo</a> |
 <a href="#started">Cấu hình dự án</a> |
 <a href="#contribute">Đóng góp thêm</a>
 
@@ -10,19 +11,18 @@
 <p align="center">- Dự án `Movie App` này là một bài tập lớn về chủ đề xem phim, có triển khai một vài chức năng cơ bản của một ứng dụng xem phim tiêu chuẩn. <br>
 - Vì đây là một dự án một người làm và vẫn <b>đang phát triển</b> nên có thể sẽ không vừa mắt mọi người xem cho lắm, mong mọi người hãy thông cảm vì điều này.</p>
 
-
 <h2 id="technologies">💻 Công nghệ</h2>
 
 - **Kotlin**
     + **Coroutines**: Thư viện chính thức của **Kotlin** giúp xử lý các tác vụ **bất đồng bộ**.
-- **Firebase SDK**
+- **Firebase**
     + **Authentication**: API giúp xử lý xác thực thông tin người dùng.
     + **Realtime Database**: API giúp quản lý dữ liệu trong cơ sở dữ liệu trong thời gian thực.
     + **Storage**: API giúp chúng ta có thể lưu trữ các dữ liệu dạng `asset` như **ảnh, video, font, ...**
 - Các thư viện **bên thứ 3**:
     + **Glide**: Thư viện giúp tải ảnh từ một nguồn nào đó lên ứng dụng.
     + **Chip Navigation Bar**: Thư viện giúp chúng ta thêm thanh điều hướng cuối màn hình.
-    + **BlurView**: Thư viện xử lý các view được làm mờ
+    + **BlurView**: Thư viện xử lý các view được làm mờ.
 
 <h2 id="layout">🎨 Ảnh chụp demo</h2>
 
@@ -56,18 +56,18 @@ FIREBASE_URL=<YOUR_FIREBASE_URL>
 thay thế *<YOUR_FIREBASE_URL>* bằng đường dẫn tham chiếu tới dự án trên Firebase của bạn. Hãy đặt tệp đó vào thư mục gốc của dự án.
 
 - Tiếp tục, bạn sẽ cần đến tệp `google-services.json`, tệp này chỉ có thể lấy được sau khi cấu hình xong dự án trên  **Firebase Console**,
-sau khi lấy được nó bạn sẽ đặt vào thư mục `app` của dự án theo đường dẫn phía dưới, **tốt nhất bạn nên thực hiện bước này cuối cùng sau khi bạn đã chắc chắn cấu hình xong dự án Firebase**:
+sau khi lấy được nó bạn sẽ đặt vào thư mục `app` của dự án theo đường dẫn phía dưới, **tốt nhất bạn nên thực hiện bước này cuối cùng sau khi bạn đã chắc chắn cấu hình hoặc sửa đổi xong dự án Firebase**:
 ```
 <PROJECT_ROOT>\app
 ```
-với *<PROJECT_ROOT>* là vị trí dự án hiện tại của bạn.
+với ***<PROJECT_ROOT>*** là vị trí dự án hiện tại của bạn.
 
 - Vì đang sử dụng Firebase làm backend nên dự án ban đầu sẽ không có dữ liệu,<br>
 bạn hãy xem video Youtube sau và link GitHub phía dưới để cấu hình dự án và lấy dữ liệu:
     + [Movies app Android Studio Project App Tutorial](https://www.youtube.com/watch?v=yv2e_r8dOf8) (**YouTube**)
     + [worldsat](https://github.com/worldsat/project182) (**GitHub**)
 
-    (**Dự án này được base hoàn toàn dựa theo video YouTube trên, chân thành gửi lời cảm ơn tới [@UiLover](https://www.youtube.com/@UiLover)**)
+    (**Dự án này được base giao diện hoàn toàn dựa theo video YouTube trên, rất chân thành gửi lời cảm ơn tới [@UiLover](https://www.youtube.com/@UiLover)**)
 
 - Dự án Firebase trên có sử dụng **Firebase `Authentication`**, khi thiết lập phần `Sign-in Method` hãy kích hoạt tính năng xác thực bằng:
     + **Email/Password**
@@ -127,9 +127,14 @@ với <*project_name*> và <*module_name*> lần lượt là: <*tên-dự-án*> 
 (Hoặc có một cách dễ dàng hơn, ấn vào nút ▶️ ở trên thanh Toolbar là xong :v)
 
 <h2 id="contribute">📫 Đóng góp</h2>
-Những đóng góp của mọi người luôn được đánh giá cao cho sự hoàn thiện của dự án <br>
+Những đóng góp của mọi người luôn được đánh giá cao cho sự hoàn thiện của dự án. <br>
 Để đóng góp, hãy thực hiện như các bước phía dưới:
 
-1. `git checkout -b feature/NAME`
-2. Follow commit patterns
-3. Open a Pull Request explaining the problem solved or feature made, if exists, append screenshot of visual modifications and wait for the review!
+1. Tạo một nhánh mới với cú pháp:
+```bash
+git checkout -b feature/NAME 
+```
+Lệnh này cũng sẽ đồng thời chuyển từ nhánh `master` sang nhánh mới bạn vừa tạo.
+
+2. Hãy chỉnh sửa hoặc thêm tính năng theo ý bạn muốn và chờ được xem xét! <br>
+(Nếu sau 6 tháng dự án này không nhận được phản hồi nào thì mình sẽ đưa kho lưu trữ này vào phần `Archived`.)

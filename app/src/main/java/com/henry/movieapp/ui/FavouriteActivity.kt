@@ -11,18 +11,18 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.henry.movieapp.R
-import com.henry.movieapp.databinding.ActivitySettingsBinding
+import com.henry.movieapp.databinding.ActivityFavouriteBinding
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
-class SettingsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySettingsBinding
+class FavouriteActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityFavouriteBinding
     private lateinit var navBar: ChipNavigationBar
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        binding = ActivityFavouriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -31,9 +31,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         navBar = binding.navBar
-
-        configureNavigationBar()
-
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 navBar.setItemSelected(R.id.explorer, true)
@@ -44,6 +41,8 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         })
+
+        configureNavigationBar()
     }
 
     override fun onStart() {
